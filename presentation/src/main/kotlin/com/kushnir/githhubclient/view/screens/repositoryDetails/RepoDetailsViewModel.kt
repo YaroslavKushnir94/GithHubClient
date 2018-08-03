@@ -9,8 +9,8 @@ import io.reactivex.observers.DisposableObserver
 import javax.inject.Inject
 
 class RepoDetailsViewModel @Inject constructor(private val getUserFollowers: GetUserFollowers) : ViewModel() {
-    val mutableLiveData: MutableLiveData<RepoDetailsStateModel> = MutableLiveData()
 
+    val mutableLiveData: MutableLiveData<RepoDetailsStateModel> = MutableLiveData()
     init {
         mutableLiveData.value = RepoDetailsStateModel()
     }
