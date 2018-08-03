@@ -1,18 +1,21 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+    compileSdkVersion globalConfiguration.properties["compileSdkVersion"]
     defaultConfig {
-        applicationId "com.kushnir.githhubclient"
-        minSdkVersion 15
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        applicationId globalConfiguration.properties["applicationId"]
+        minSdkVersion globalConfiguration.properties["minSdkVersion"]
+        targetSdkVersion globalConfiguration.properties["targetSdkVersion"]
+        versionCode globalConfiguration.properties["versionCode"]
+        versionName globalConfiguration.properties["versionName"]
+        testInstrumentationRunner globalConfiguration.properties["testInstrumentationRunner"]
+        dataBinding {
+            enabled = true
+        }
     }
     buildTypes {
         release {
@@ -27,11 +30,27 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    def depConfig = rootProject.ext.presentationDependencies
+    def depTestConfig = rootProject.ext.presentationTestDependencies
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation depConfig.kotlin
+    implementation depConfig.appCompat
+    implementation depConfig.constraintLayout
+    implementation depConfig.supportDesign
+    implementation depConfig.picasso
+    testImplementation depTestConfig.junit
+    androidTestImplementation depTestConfig.testRunner
+    androidTestImplementation depTestConfig.espressoCore
+    implementation depConfig.dagger
+    implementation depConfig.daggerAndroid
+    kapt depConfig.daggerKapt
+    kapt depConfig.daggerProcessorKapt
+    implementation depConfig.rxJava
+    implementation depConfig.okHttpLoginInteceptor
+    implementation project(':data')
+    implementation project(':domain')
+    implementation depConfig.lifeCycle
+    annotationProcessor depConfig.lifeCycleAnnotation
+    implementation depConfig.cardView
+    implementation depConfig.viewRxBindingWharton
 }

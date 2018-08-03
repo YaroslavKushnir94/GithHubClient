@@ -1,20 +1,19 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
 
 android {
-    compileSdkVersion 27
-
-
-
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+    compileSdkVersion globalConfiguration.properties["compileSdkVersion"]
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        minSdkVersion globalConfiguration.properties["minSdkVersion"]
+        targetSdkVersion globalConfiguration.properties["targetSdkVersion"]
+        versionCode globalConfiguration.properties["versionCode"]
+        versionName globalConfiguration.properties["versionName"]
+        testInstrumentationRunner globalConfiguration.properties["testInstrumentationRunner"]
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -24,14 +23,21 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    def depConfig = rootProject.ext.dataDependencies
+    def depTestConfig = rootProject.ext.dataTestDependencies
+    implementation depConfig.kotlin
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation depTestConfig.junit
+    androidTestImplementation depTestConfig.testRunner
+    implementation depConfig.rxJava
+    implementation depConfig.retrofit
+    implementation depConfig.retrofitRxAdapter
+    implementation depConfig.retrofitGsonConv
+    implementation depConfig.okHtttp
+    implementation depConfig.okHttpLoginInteceptor
+    implementation depConfig.javaxInject
+    implementation project(':domain')
 }

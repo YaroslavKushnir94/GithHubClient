@@ -1,11 +1,18 @@
 apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
 
 sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
 }
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-}
+    def depConfig = rootProject.ext.domainDependencies
+    def depTestConfig = rootProject.ext.domainTestDependencies
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation depConfig.kotlin
+    implementation depConfig.rxJava
+    implementation depConfig.javaxInject
+
+    testImplementation depTestConfig.junit
+}

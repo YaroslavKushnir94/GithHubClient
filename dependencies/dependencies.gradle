@@ -1,0 +1,80 @@
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+ext {
+    applicationId = "com.kushnir.bestcalendar"
+    compileSdkVersion = 27
+    minSdkVersion = 15
+    targetSdkVersion = 27
+    versionCode = 1
+    versionName = "1.0"
+    daggerVersion = 2.13
+    supportVersion = "27.1.1"
+    constraintLVersion = "1.1.0"
+    rxJavaVersion = "2.0.1"
+    picassoVersion = "2.71828"
+    dbRoomVersion = "1.0.0"
+    retrofitVersion = "2.3.0"
+    okHttpVersion = '3.9.1'
+    javaxInjectVersion = "1"
+    lifecycleVersion = "1.1.1"
+    jUnitVersion = "4.12"
+    testRunnerVersion = "1.0.2"
+    espressoCoreVersion = "3.0.2"
+    whartonRxBinding = "2.0.0"
+    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+
+
+    presentationDependencies = [
+            dagger               : "com.google.dagger:dagger:$daggerVersion",
+            daggerAndroid        : "com.google.dagger:dagger-android:$daggerVersion",
+            daggerKapt           : "com.google.dagger:dagger-compiler:$daggerVersion",
+            daggerProcessorKapt  : "com.google.dagger:dagger-android-processor:$daggerVersion",
+            kotlin               : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
+            appCompat            : "com.android.support:appcompat-v7:$supportVersion",
+            constraintLayout     : "com.android.support.constraint:constraint-layout:$constraintLVersion",
+            supportDesign        : "com.android.support:design:$supportVersion",
+            rxJava               : "io.reactivex.rxjava2:rxandroid:$rxJavaVersion",
+            picasso              : "com.squareup.picasso:picasso:$picassoVersion",
+            okHttpLoginInteceptor: "com.squareup.okhttp3:logging-interceptor:$okHttpVersion",
+            lifeCycle            : "android.arch.lifecycle:extensions:$lifecycleVersion",
+            lifeCycleAnnotation  : "android.arch.lifecycle:compiler:$lifecycleVersion",
+            cardView             : "com.android.support:cardview-v7:$supportVersion",
+            viewRxBindingWharton : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$whartonRxBinding"
+    ]
+
+    presentationTestDependencies = [
+            junit       : "junit:junit:$jUnitVersion",
+            testRunner  : "com.android.support.test:runner:$testRunnerVersion",
+            espressoCore: "com.android.support.test.espresso:espresso-core:$espressoCoreVersion"
+    ]
+
+    dataDependencies = [
+            kotlin               : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
+            rxJava               : "io.reactivex.rxjava2:rxandroid:$rxJavaVersion",
+            retrofit             : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofitRxAdapter    : "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+            retrofitGsonConv     : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            okHtttp              : "com.squareup.okhttp3:okhttp:$okHttpVersion",
+            okHttpLoginInteceptor: "com.squareup.okhttp3:logging-interceptor:$okHttpVersion",
+            javaxInject          : "javax.inject:javax.inject:${javaxInjectVersion}"
+    ]
+
+    dataTestDependencies = [
+            junit     : "junit:junit:$jUnitVersion",
+            testRunner: "com.android.support.test:runner:$testRunnerVersion"
+    ]
+    domainDependencies = [
+            kotlin     : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
+            rxJava     : "io.reactivex.rxjava2:rxandroid:$rxJavaVersion",
+            javaxInject: "javax.inject:javax.inject:${javaxInjectVersion}"
+
+    ]
+    domainTestDependencies = [
+            junit     : "junit:junit:$jUnitVersion",
+            testRunner: "com.android.support.test:runner:$testRunnerVersion"
+    ]
+}
