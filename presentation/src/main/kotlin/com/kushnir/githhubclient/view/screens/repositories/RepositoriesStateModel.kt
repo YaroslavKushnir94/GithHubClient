@@ -1,6 +1,6 @@
 package com.kushnir.githhubclient.view.screens.repositories
 
+import com.kushnir.githhubclient.view.screens.ResultTuple
 import com.kushnir.githhubclient.view.screens.repositories.adapter.RepositoryModel
 
-
-class RepositoriesStateModel(var loading: Boolean = false, var repositories: MutableList<RepositoryModel> = mutableListOf())
+data class RepositoriesStateModel(var loading: Boolean = false, var data: ResultTuple<MutableList<RepositoryModel>> = ResultTuple(mutableListOf(), false))

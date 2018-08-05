@@ -9,8 +9,8 @@ import retrofit2.Response
 class UserApiProviderImpl(config: RetrofitConfig) : UserApiProvider {
     private val userService = config.retrofit.create(UserService::class.java)
 
-    override fun getUserFollowers(userName: String): Observable<Response<List<UserEntity>>> {
-        return userService.getFollowers(userName)
+    override fun getUserFollowers(userName: String,  page: Int, perPage: Int): Observable<Response<List<UserEntity>>> {
+        return userService.getFollowers(userName,page,perPage)
                 .compose(ThreadTransformer<Response<List<UserEntity>>>())
     }
 }

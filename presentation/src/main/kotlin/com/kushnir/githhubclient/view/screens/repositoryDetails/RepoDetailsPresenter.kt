@@ -1,6 +1,10 @@
 package com.kushnir.githhubclient.view.screens.repositoryDetails
 
+import com.kushnir.githhubclient.view.screens.LiveDataParams
+import com.kushnir.githhubclient.view.screens.State
+
 class RepoDetailsPresenter : RepoDetailsScreen.Presenter {
+
     private lateinit var view: RepoDetailsScreen.View
     private lateinit var model: RepoDetailsViewModel
 
@@ -10,10 +14,17 @@ class RepoDetailsPresenter : RepoDetailsScreen.Presenter {
     }
 
     override fun getFollowers(name: String) {
-        model.getFollowers(name)
+        model.loadStartPage(name)
     }
 
-    override fun onChanged(t: RepoDetailsStateModel?) {
-        view.onDataChanged(t!!)
+    override fun loadMoreFollowers() {
+        model.loadNextPage()
+    }
+
+    override fun onChanged(t: LiveDataParams<RepoDetailsStateModel>?) {
+        when (t!!.state) {
+            State.DONE -> view.changeData(t.data)
+            State.ERROR -> { view.changeData(t.data) }
+        }
     }
 }

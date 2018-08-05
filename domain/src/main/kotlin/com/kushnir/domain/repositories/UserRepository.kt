@@ -5,5 +5,5 @@ import io.reactivex.Observable
 import javax.xml.ws.Response
 
 interface UserRepository {
-    fun getUserFollowers(userName: String): Observable<MutableList<User>>
+    fun getUserFollowers(userName: String,  page: Int, perPage: Int): Observable<MutableList<User>>
 }

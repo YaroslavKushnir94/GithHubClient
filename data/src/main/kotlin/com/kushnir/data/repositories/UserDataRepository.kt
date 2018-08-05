@@ -9,8 +9,8 @@ import retrofit2.Response
 
 class UserDataRepository constructor(private val userApiProvider: UserApiProvider) : UserRepository {
 
-    override fun getUserFollowers(userName: String): Observable<MutableList<User>> {
-        return userApiProvider.getUserFollowers(userName)
+    override fun getUserFollowers(userName: String,  page: Int, perPage: Int): Observable<MutableList<User>> {
+        return userApiProvider.getUserFollowers(userName,page,perPage)
                 .map { UserEntityMapper.transform(it.body()) }
     }
 }

@@ -6,9 +6,11 @@ import com.kushnir.domain.repositories.CommonRepository
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class GetRepositories @Inject constructor(private val commonRepository: CommonRepository, postExecutionThread: PostExecutionThread) : UseCase<MutableList<Repository>, String>(postExecutionThread) {
+class GetRepositories @Inject constructor(private val commonRepository: CommonRepository, postExecutionThread: PostExecutionThread) : UseCase<MutableList<Repository>, GetRepositories.Params>(postExecutionThread) {
 
-    override fun buildUseCaseObservable(params: String): Observable<MutableList<Repository>> {
-        return commonRepository.searchRepositories(params)
+    override fun buildUseCaseObservable(params: Params): Observable<MutableList<Repository>> {
+        return commonRepository.searchRepositories(params.key,params.page,params.perPage)
     }
+
+    data class Params(val key: String, val page:Int, val perPage:Int)
 }

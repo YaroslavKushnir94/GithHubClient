@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">GithHubClient</string>
+    <string name="app_name">GitHubClient</string>
+    <string name="repositories_title">Repositories</string>
+    <string name="details_repo_title">Followers</string>
 </resources>

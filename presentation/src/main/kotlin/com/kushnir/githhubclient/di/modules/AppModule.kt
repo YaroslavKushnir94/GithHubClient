@@ -11,7 +11,6 @@ import com.kushnir.domain.repositories.CommonRepository
 import com.kushnir.domain.repositories.UserRepository
 import com.kushnir.githhubclient.GitHubClient
 import com.kushnir.githhubclient.UiThread
-import com.kushnir.githhubclient.view.screens.repositories.RepositoriesModelFactory
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

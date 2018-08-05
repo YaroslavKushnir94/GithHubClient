@@ -19,13 +19,13 @@
 
         <ImageView
             android:id="@+id/ivAvatar"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             app:url="@{model.avatarUrl}" />
 
         <TextView
             android:id="@+id/tvUserLogin"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@color/scrim"

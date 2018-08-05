@@ -5,5 +5,5 @@ import io.reactivex.Observable
 import retrofit2.Response
 
 interface UserApiProvider {
-     fun getUserFollowers(userName: String): Observable<Response<List<UserEntity>>>
+     fun getUserFollowers(userName: String,  page: Int, perPage: Int): Observable<Response<List<UserEntity>>>
 }

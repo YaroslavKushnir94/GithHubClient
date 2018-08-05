@@ -8,11 +8,11 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import com.kushnir.githhubclient.R
 import com.kushnir.githhubclient.databinding.DetailsRepoActivityBinding
-import com.kushnir.githhubclient.view.screens.divider.GridSpacingItemDecoration
+import com.kushnir.githhubclient.view.screens.repositories.adapter.PagingAdapter
 import com.kushnir.githhubclient.view.screens.repositoryDetails.adapter.RepoDetailsAdapter
 import com.kushnir.githhubclient.view.screens.repositoryDetails.parcelable.DetailsParams
 import dagger.android.AndroidInjection
@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.details_repo_activity.*
 import javax.inject.Inject
 
 class RepoDetailsActivity : AppCompatActivity(), RepoDetailsScreen.View {
-
 
     @Inject
     lateinit var presenter: RepoDetailsScreen.Presenter
@@ -30,7 +29,6 @@ class RepoDetailsActivity : AppCompatActivity(), RepoDetailsScreen.View {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
 
     private lateinit var binding: DetailsRepoActivityBinding
 
@@ -53,17 +51,18 @@ class RepoDetailsActivity : AppCompatActivity(), RepoDetailsScreen.View {
         binding.stateModel = RepoDetailsStateModel()
         params = intent.getParcelableExtra(PARAMS_KEY)
         initView()
+        addListeners()
         presenter.onViewCreated(this, createViewModel())
         presenter.getFollowers(params.userName)
     }
 
     private fun createViewModel(): RepoDetailsViewModel {
         val viewModel = ViewModelProviders.of(this, viewModelFactory)[RepoDetailsViewModel::class.java]
-        viewModel.mutableLiveData.observe(this, presenter)
+        viewModel.liveData.observe(this, presenter)
         return viewModel
     }
 
-    override fun onDataChanged(state: RepoDetailsStateModel) {
+    override fun changeData(state: RepoDetailsStateModel) {
         binding.stateModel = state
         adapter.addItems(state.followers)
     }
@@ -71,12 +70,16 @@ class RepoDetailsActivity : AppCompatActivity(), RepoDetailsScreen.View {
     private fun initView() {
         addHomeButton()
         tvRepositoryName.text = params.repoName
-        val spanCount = resources.getInteger(R.integer.grid_span_count)
-        rvFollowers.layoutManager = GridLayoutManager(this, spanCount)
-        rvFollowers.addItemDecoration(GridSpacingItemDecoration(spanCount,
-                resources.getDimensionPixelSize(R.dimen.grid_spacing), true))
+        rvFollowers.layoutManager = LinearLayoutManager(this)
         rvFollowers.adapter = adapter
+    }
 
+    private fun addListeners() {
+        adapter.addLoadingListener(object : PagingAdapter.OnLoadMoreListener {
+            override fun onLoadMore() {
+                presenter.loadMoreFollowers()
+            }
+        })
     }
 
     private fun addHomeButton() {
@@ -93,4 +96,5 @@ class RepoDetailsActivity : AppCompatActivity(), RepoDetailsScreen.View {
         }
         return super.onOptionsItemSelected(item)
     }
+
 }

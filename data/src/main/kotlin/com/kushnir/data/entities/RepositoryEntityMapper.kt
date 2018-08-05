@@ -9,7 +9,7 @@ class RepositoryEntityMapper {
         fun transform(response: RepositoryResponseEntity?): MutableList<Repository> {
             if (response!!.items == null) throw IllegalArgumentException("Repositories collection is Null")
             val listResult: MutableList<Repository> = mutableListOf()
-            for (item: RepositoryEntity in response.items!!) {//TODO fix it
+            for (item: RepositoryEntity in response.items!!) {
                 listResult.add(transform(item))
             }
             return listResult

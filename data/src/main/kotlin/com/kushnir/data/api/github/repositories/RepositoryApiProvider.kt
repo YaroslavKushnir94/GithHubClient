@@ -7,6 +7,6 @@ import okhttp3.ResponseBody
 import retrofit2.Response
 
 interface RepositoryApiProvider {
-    fun searchRepositories(key: String): Observable<Response<RepositoryResponseEntity>>
+    fun searchRepositories(key: String,page:Int,perPage:Int): Observable<Response<RepositoryResponseEntity>>
 
 }

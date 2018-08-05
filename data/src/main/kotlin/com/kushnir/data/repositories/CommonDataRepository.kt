@@ -8,8 +8,8 @@ import io.reactivex.Observable
 
 class CommonDataRepository constructor(private val provider: RepositoryApiProvider) : CommonRepository {
 
-    override fun searchRepositories(key: String): Observable<MutableList<Repository>> {
-        return provider.searchRepositories(key)
+    override fun searchRepositories(key: String, page: Int, perPage: Int): Observable<MutableList<Repository>> {
+        return provider.searchRepositories(key, page, perPage)
                 .map { RepositoryEntityMapper.transform(it.body()) }
     }
 }

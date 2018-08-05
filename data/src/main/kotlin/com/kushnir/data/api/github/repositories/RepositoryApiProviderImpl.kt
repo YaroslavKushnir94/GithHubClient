@@ -13,8 +13,8 @@ class RepositoryApiProviderImpl(config: RetrofitConfig) : RepositoryApiProvider 
 
     private val repoService = config.retrofit.create(RepositoryService::class.java)
 
-    override fun searchRepositories(key: String): Observable<Response<RepositoryResponseEntity>> {
-        return repoService.getRepositories(1, 100, key)
+    override fun searchRepositories(key: String,page:Int,perPage:Int): Observable<Response<RepositoryResponseEntity>> {
+        return repoService.getRepositories(page, perPage, key)
                 .compose(ThreadTransformer<Response<RepositoryResponseEntity>>())
 
     }
