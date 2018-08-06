@@ -30,12 +30,14 @@ class RepositoriesAdapter(private var items: MutableList<RepositoryModel>) : Pag
         if (result.data.isEmpty()) return
         loadFinish()
         if (result.newData) {
+            val start = items.size
             items.clear()
-            notifyDataSetChanged()
+            notifyItemRangeRemoved(0, start)
         }
+        val start = items.size
         items.addAll(result.data)
         checkLastPage(result.data.size)
-        notifyItemRangeInserted(0,items.size)
+        notifyItemRangeInserted(start, items.size)
     }
 
     fun addClickListener(listener: AdapterClickListener) {
