@@ -27,6 +27,7 @@ ext {
     whartonRxBinding = "2.0.0"
     testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     pegingLibVersion = "1.0.0"
+    circularImageViewVersion = "3.2.0"
 
 
     presentationDependencies = [
@@ -45,7 +46,7 @@ ext {
             lifeCycleAnnotation  : "android.arch.lifecycle:compiler:$lifecycleVersion",
             cardView             : "com.android.support:cardview-v7:$supportVersion",
             viewRxBindingWharton : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$whartonRxBinding",
-            pagingAdapter        : "android.arch.paging:runtime:$pegingLibVersion"
+            circularimageview    : "com.mikhaellopez:circularimageview:$circularImageViewVersion"
     ]
 
     presentationTestDependencies = [

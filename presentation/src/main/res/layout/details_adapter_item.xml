@@ -13,28 +13,37 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="4dp">
+        android:layout_height="wrap_content"
+        style="@style/CardViewStyle">
 
-        <ImageView
-            android:id="@+id/ivAvatar"
-            android:layout_width="100dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:url="@{model.avatarUrl}" />
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/repositories_card_view_padding"
+            android:paddingRight="@dimen/repositories_card_view_padding">
 
-        <TextView
-            android:id="@+id/tvUserLogin"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/scrim"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:padding="8dp"
-            android:text="@{model.login}"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:layout_width="@dimen/user_avatar_height"
+                android:layout_height="@dimen/user_avatar_height"
+                android:layout_gravity="center_vertical"
+                app:civ_border_color="@color/color_avatar_border"
+                app:civ_border_width="@dimen/avatar_border_width"
+                app:civ_shadow="true"
+                app:civ_shadow_color="@color/color_shadow_image_view"
+                app:url="@{model.avatarUrl}" />
+
+            <TextView
+                android:id="@+id/tvUserLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="@dimen/userLogin_tv_pending"
+                android:text="@{model.login}"
+                android:textSize="14sp" />
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 </layout>

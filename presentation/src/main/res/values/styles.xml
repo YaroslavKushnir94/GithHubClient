@@ -14,4 +14,15 @@
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
+
+
+    <style name="CardViewStyle" parent="Theme.AppCompat.Light">
+        <item name="android:layout_marginLeft">@dimen/repositories_card_view_margin</item>
+        <item name="android:layout_marginRight">@dimen/repositories_card_view_margin</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="cardCornerRadius">@dimen/card_view_radius</item>
+        <item name="cardElevation">@dimen/card_view_elevation</item>
+    </style>
+
 </resources>

@@ -1,34 +1,29 @@
 package com.kushnir.githhubclient.view.screens.repositoryDetails
 
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import com.kushnir.githhubclient.R
 import com.kushnir.githhubclient.databinding.DetailsRepoActivityBinding
-import com.kushnir.githhubclient.view.screens.repositories.adapter.PagingAdapter
+import com.kushnir.githhubclient.view.base.BaseActivity
+import com.kushnir.githhubclient.view.base.PagingAdapter
 import com.kushnir.githhubclient.view.screens.repositoryDetails.adapter.RepoDetailsAdapter
 import com.kushnir.githhubclient.view.screens.repositoryDetails.parcelable.DetailsParams
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.details_repo_activity.*
 import javax.inject.Inject
 
-class RepoDetailsActivity : AppCompatActivity(), RepoDetailsScreen.View {
+class RepoDetailsActivity : BaseActivity(), RepoDetailsScreen.View {
 
     @Inject
     lateinit var presenter: RepoDetailsScreen.Presenter
 
     @Inject
     lateinit var adapter: RepoDetailsAdapter
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var binding: DetailsRepoActivityBinding
 
@@ -52,14 +47,8 @@ class RepoDetailsActivity : AppCompatActivity(), RepoDetailsScreen.View {
         params = intent.getParcelableExtra(PARAMS_KEY)
         initView()
         addListeners()
-        presenter.onViewCreated(this, createViewModel())
-        presenter.getFollowers(params.userName)
-    }
-
-    private fun createViewModel(): RepoDetailsViewModel {
-        val viewModel = ViewModelProviders.of(this, viewModelFactory)[RepoDetailsViewModel::class.java]
-        viewModel.liveData.observe(this, presenter)
-        return viewModel
+        presenter.onViewCreated(this)
+        presenter.getFollowers(params.userName,1)
     }
 
     override fun changeData(state: RepoDetailsStateModel) {
@@ -69,6 +58,7 @@ class RepoDetailsActivity : AppCompatActivity(), RepoDetailsScreen.View {
 
     private fun initView() {
         addHomeButton()
+        setTitle(R.string.details_repo_title)
         tvRepositoryName.text = params.repoName
         rvFollowers.layoutManager = LinearLayoutManager(this)
         rvFollowers.adapter = adapter
@@ -77,9 +67,14 @@ class RepoDetailsActivity : AppCompatActivity(), RepoDetailsScreen.View {
     private fun addListeners() {
         adapter.addLoadingListener(object : PagingAdapter.OnLoadMoreListener {
             override fun onLoadMore() {
-                presenter.loadMoreFollowers()
+                presenter.loadMoreFollowers(params.userName)
             }
         })
+    }
+
+    override fun showErrorMessage(message: String) {
+        displayMessage(message)
+        adapter.loadFinish()
     }
 
     private fun addHomeButton() {
@@ -97,4 +92,8 @@ class RepoDetailsActivity : AppCompatActivity(), RepoDetailsScreen.View {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onDestroy() {
+        presenter.onViewDestroy()
+        super.onDestroy()
+    }
 }

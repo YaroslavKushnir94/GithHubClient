@@ -3,6 +3,7 @@
     package="com.kushnir.githhubclient">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".GitHubClient"
         android:allowBackup="true"

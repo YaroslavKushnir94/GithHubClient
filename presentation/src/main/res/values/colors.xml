@@ -2,7 +2,9 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="scrim">#b9535151</color>
+    <color name="colorAccent">#277de7</color>
+    <color name="color_scrim">#b9535151</color>
+    <color name="color_shadow_image_view">#b1b4ad</color>
+    <color name="color_avatar_border">#EEEEEE</color>
 
 </resources>

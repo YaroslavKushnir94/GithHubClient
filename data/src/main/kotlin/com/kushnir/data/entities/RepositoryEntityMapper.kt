@@ -1,5 +1,6 @@
 package com.kushnir.data.entities
 
+import com.kushnir.data.exception.ServerExeption
 import com.kushnir.domain.entities.Owner
 import com.kushnir.domain.entities.Repository
 
@@ -7,7 +8,7 @@ class RepositoryEntityMapper {
     companion object {
 
         fun transform(response: RepositoryResponseEntity?): MutableList<Repository> {
-            if (response!!.items == null) throw IllegalArgumentException("Repositories collection is Null")
+            if (response == null) throw ServerExeption()
             val listResult: MutableList<Repository> = mutableListOf()
             for (item: RepositoryEntity in response.items!!) {
                 listResult.add(transform(item))

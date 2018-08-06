@@ -5,6 +5,7 @@ import com.kushnir.data.api.github.repositories.RepositoryApiProvider
 import com.kushnir.data.api.github.repositories.RepositoryApiProviderImpl
 import com.kushnir.data.api.github.user.UserApiProvider
 import com.kushnir.data.api.github.user.UserApiProviderImpl
+import com.kushnir.data.utils.Connectivity
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

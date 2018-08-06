@@ -1,7 +1,8 @@
-package com.kushnir.githhubclient.view.screens.repositories.adapter
+package com.kushnir.githhubclient.view.base
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.kushnir.githhubclient.view.screens.utils.Constants
 
 abstract class PagingAdapter<VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
 
@@ -11,7 +12,7 @@ abstract class PagingAdapter<VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
 
     var isLastPage = false
 
-    private var PORTION = 100
+    private var PORTION = Constants.PER_PAGE
 
     private var loadMoreListener: OnLoadMoreListener? = null
 
@@ -25,11 +26,13 @@ abstract class PagingAdapter<VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val countItems = itemCount
-                val lastVisiblePos = manager.findLastVisibleItemPosition()
-                if (!isLastPage && !loading && countItems <= (lastVisiblePos + prefetchDistance)) {
-                    loading = true
-                    loadMoreListener?.onLoadMore()
+                if (dy > 0) {
+                    val countItems = itemCount
+                    val lastVisiblePos = manager.findLastVisibleItemPosition()
+                    if (!isLastPage && !loading && countItems <= (lastVisiblePos + prefetchDistance)) {
+                        loading = true
+                        loadMoreListener?.onLoadMore()
+                    }
                 }
             }
         })
@@ -38,7 +41,8 @@ abstract class PagingAdapter<VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
     fun addLoadingListener(listener: OnLoadMoreListener) {
         this.loadMoreListener = listener
     }
-    protected fun loadFinish() {
+
+    fun loadFinish() {
         loading = false
     }
 

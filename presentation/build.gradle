@@ -53,5 +53,5 @@ dependencies {
     annotationProcessor depConfig.lifeCycleAnnotation
     implementation depConfig.cardView
     implementation depConfig.viewRxBindingWharton
-    implementation depConfig.pagingAdapter
+    implementation depConfig.circularimageview
 }

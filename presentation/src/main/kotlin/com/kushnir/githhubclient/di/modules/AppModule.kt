@@ -6,6 +6,7 @@ import com.kushnir.data.api.github.repositories.RepositoryApiProvider
 import com.kushnir.data.api.github.user.UserApiProvider
 import com.kushnir.data.repositories.CommonDataRepository
 import com.kushnir.data.repositories.UserDataRepository
+import com.kushnir.data.utils.Connectivity
 import com.kushnir.domain.interactor.GetRepositories
 import com.kushnir.domain.repositories.CommonRepository
 import com.kushnir.domain.repositories.UserRepository
@@ -27,13 +28,20 @@ class AppModule {
     internal fun providePostExecutionThread(uiThread: UiThread): PostExecutionThread {
         return uiThread
     }
+
+    @Singleton
     @Provides
-    fun providesRepository(provider: RepositoryApiProvider): CommonRepository {
-        return CommonDataRepository(provider)
+    fun provideConnectivity(context: Context):Connectivity{
+        return Connectivity(context)
     }
     @Provides
-    fun providesUserRepository(provider: UserApiProvider): UserRepository {
-        return UserDataRepository(provider)
+    fun providesRepository(provider: RepositoryApiProvider, connectivity: Connectivity): CommonRepository {
+        return CommonDataRepository(provider, connectivity)
+    }
+
+    @Provides
+    fun providesUserRepository(provider: UserApiProvider, connectivity: Connectivity): UserRepository {
+        return UserDataRepository(provider, connectivity)
     }
 
 }

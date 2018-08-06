@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.kushnir.githhubclient.R
 import com.kushnir.githhubclient.databinding.DetailsAdapterItemBinding
-import com.kushnir.githhubclient.view.screens.repositories.adapter.PagingAdapter
+import com.kushnir.githhubclient.view.base.PagingAdapter
 
 class RepoDetailsAdapter(private val items: MutableList<UserModel>) : PagingAdapter<RepoDetailsViewHolder>() {
 

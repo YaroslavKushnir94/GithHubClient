@@ -1,10 +1,6 @@
 package com.kushnir.githhubclient.view.screens.repositories
 
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.Menu
@@ -17,22 +13,21 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import android.databinding.DataBindingUtil
 import com.kushnir.githhubclient.databinding.ActivityRepositoriesBinding
+import com.kushnir.githhubclient.view.base.BaseActivity
+import com.kushnir.githhubclient.view.base.PagingAdapter
 import com.kushnir.githhubclient.view.screens.repositoryDetails.RepoDetailsActivity
 import com.kushnir.githhubclient.view.screens.repositoryDetails.parcelable.DetailsParams
 import com.kushnir.githhubclient.view.screens.repositories.adapter.*
 
 
-class RepositoriesActivity : AppCompatActivity(), RepositoriesScreen.View {
+class RepositoriesActivity : BaseActivity(), RepositoriesScreen.View {
 
-    private val DEBOUNCE = 400L
+    private val DEBOUNCE = 600L
 
     private val QUERY_DATA_PARAMS = "repository.params"
 
     @Inject
     lateinit var presenter: RepositoriesScreen.Presenter
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     lateinit var adapter: RepositoriesAdapter
@@ -48,11 +43,13 @@ class RepositoriesActivity : AppCompatActivity(), RepositoriesScreen.View {
         binding.stateModel = RepositoriesStateModel()
         intiView()
         addListeners()
-        presenter.onViewCreated(this, createViewModel())
-
+        getQuery(savedInstanceState)
+        presenter.onViewCreated(this)
+        presenter.searchTextChanged(key, 1)
     }
 
     private fun intiView() {
+        setTitle(R.string.repositories_title)
         rcRepo.layoutManager = LinearLayoutManager(this)
         rcRepo.adapter = adapter
     }
@@ -64,12 +61,6 @@ class RepositoriesActivity : AppCompatActivity(), RepositoriesScreen.View {
                 presenter.loadMore(key)
             }
         })
-    }
-
-    private fun createViewModel(): RepositoriesViewModel {
-        val viewModel = ViewModelProviders.of(this, viewModelFactory)[RepositoriesViewModel::class.java]
-        viewModel.mutableLiveData.observe(this, presenter)
-        return viewModel
     }
 
     override fun changeData(state: RepositoriesStateModel) {
@@ -85,7 +76,6 @@ class RepositoriesActivity : AppCompatActivity(), RepositoriesScreen.View {
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val mSearchMenuItem = menu!!.findItem(R.id.action_search)
         val searchView = mSearchMenuItem.actionView as SearchView
-        searchView.setQuery(key, true)
         RxSearchView.queryTextChanges(searchView)
                 .debounce(DEBOUNCE, TimeUnit.MILLISECONDS)
                 .filter { item -> item.toString().trim().isNotEmpty() }
@@ -101,13 +91,22 @@ class RepositoriesActivity : AppCompatActivity(), RepositoriesScreen.View {
         startActivity(RepoDetailsActivity.getStartIntent(this, DetailsParams(item.fullName, item.login)))
     }
 
+    override fun showErrorMessage(message: String) {
+        displayMessage(message)
+        adapter.loadFinish()
+    }
+
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         outState?.putString(QUERY_DATA_PARAMS, key)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        super.onRestoreInstanceState(savedInstanceState)
-        key = savedInstanceState?.getString(QUERY_DATA_PARAMS) ?: ""
+    private fun getQuery(bundle: Bundle?) {
+        key = bundle?.getString(QUERY_DATA_PARAMS) ?: "Kotlin"
+    }
+
+    override fun onDestroy() {
+        presenter.onViewDestroy()
+        super.onDestroy()
     }
 }

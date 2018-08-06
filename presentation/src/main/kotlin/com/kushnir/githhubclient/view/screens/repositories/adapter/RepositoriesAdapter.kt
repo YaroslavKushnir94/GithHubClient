@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import com.kushnir.githhubclient.R
 import com.kushnir.githhubclient.databinding.RepositoryAdapterItemBinding
-import com.kushnir.githhubclient.view.screens.ResultTuple
+import com.kushnir.githhubclient.view.base.PagingAdapter
+import com.kushnir.githhubclient.view.screens.utils.ResultTuple
 
 
 class RepositoriesAdapter(private var items: MutableList<RepositoryModel>) : PagingAdapter<RepositoryViewHolder>() {
@@ -22,7 +23,7 @@ class RepositoriesAdapter(private var items: MutableList<RepositoryModel>) : Pag
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: RepositoryViewHolder, position: Int) {
-        holder.bind(items[position],listener)
+        holder.bind(items[position], listener)
     }
 
     fun addItems(result: ResultTuple<MutableList<RepositoryModel>>) {
@@ -30,10 +31,11 @@ class RepositoriesAdapter(private var items: MutableList<RepositoryModel>) : Pag
         loadFinish()
         if (result.newData) {
             items.clear()
+            notifyDataSetChanged()
         }
-        checkLastPage(result.data.size)
         items.addAll(result.data)
-        notifyDataSetChanged()
+        checkLastPage(result.data.size)
+        notifyItemRangeInserted(0,items.size)
     }
 
     fun addClickListener(listener: AdapterClickListener) {

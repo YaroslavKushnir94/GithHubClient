@@ -7,5 +7,6 @@ class RepoDetailsViewHolder(private val binding:DetailsAdapterItemBinding) : Rec
 
     fun bind(item: UserModel) {
         binding.model = item
+        binding.executePendingBindings()
     }
 }
