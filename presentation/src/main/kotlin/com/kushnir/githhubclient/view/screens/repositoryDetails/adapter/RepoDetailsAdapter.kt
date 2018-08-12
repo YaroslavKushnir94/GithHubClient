@@ -7,7 +7,7 @@ import com.kushnir.githhubclient.R
 import com.kushnir.githhubclient.databinding.DetailsAdapterItemBinding
 import com.kushnir.githhubclient.view.base.PagingAdapter
 
-class RepoDetailsAdapter(private val items: MutableList<UserModel>) : PagingAdapter<RepoDetailsViewHolder>() {
+class RepoDetailsAdapter( val items: MutableList<UserModel>) : PagingAdapter<RepoDetailsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoDetailsViewHolder {
         val inflater = LayoutInflater.from(parent.context)

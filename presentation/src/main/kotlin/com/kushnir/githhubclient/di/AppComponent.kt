@@ -1,15 +1,14 @@
 package com.kushnir.githhubclient.di
 
 import com.kushnir.githhubclient.GitHubClient
-import com.kushnir.githhubclient.di.modules.ActivityBuilder
-import com.kushnir.githhubclient.di.modules.AppModule
-import com.kushnir.githhubclient.di.modules.NetModule
+import com.kushnir.githhubclient.di.modules.*
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, ActivityBuilder::class, NetModule::class])
+@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityBuilder::class, NetModule::class, FragmentBuilder::class, ViewModelModule::class])
 interface AppComponent {
 
     @Component.Builder

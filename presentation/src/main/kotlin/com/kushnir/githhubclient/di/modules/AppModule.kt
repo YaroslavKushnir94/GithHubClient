@@ -31,9 +31,10 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideConnectivity(context: Context):Connectivity{
+    fun provideConnectivity(context: Context): Connectivity {
         return Connectivity(context)
     }
+
     @Provides
     fun providesRepository(provider: RepositoryApiProvider, connectivity: Connectivity): CommonRepository {
         return CommonDataRepository(provider, connectivity)

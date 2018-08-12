@@ -3,7 +3,7 @@ package com.kushnir.githhubclient.view.screens.repositoryDetails.parcelable
 import android.os.Parcel
 import android.os.Parcelable
 
-data class DetailsParams(val repoName: String, val userName: String) : Parcelable {
+data class DetailsParams(val repoName: String = "", val userName: String = "") : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),

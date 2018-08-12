@@ -9,8 +9,8 @@ import dagger.Provides
 class RepositoriesModule {
 
     @Provides
-    fun providePresenter(getRepositories: GetRepositories): RepositoriesScreen.Presenter {
-        return RepositoriesPresenter(getRepositories)
+    fun providePresenter(): RepositoriesScreen.Presenter {
+        return RepositoriesPresenter()
     }
 
     @Provides

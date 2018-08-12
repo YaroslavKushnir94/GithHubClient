@@ -10,9 +10,11 @@ import com.kushnir.githhubclient.view.base.PagingAdapter
 import com.kushnir.githhubclient.view.screens.utils.ResultTuple
 
 
-class RepositoriesAdapter(private var items: MutableList<RepositoryModel>) : PagingAdapter<RepositoryViewHolder>() {
+class RepositoriesAdapter( var items: MutableList<RepositoryModel>) : PagingAdapter<RepositoryViewHolder>() {
 
     private var listener: AdapterClickListener? = null
+
+    var newPortion = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -26,17 +28,16 @@ class RepositoriesAdapter(private var items: MutableList<RepositoryModel>) : Pag
         holder.bind(items[position], listener)
     }
 
-    fun addItems(result: ResultTuple<MutableList<RepositoryModel>>) {
-        if (result.data.isEmpty()) return
+    fun addItems(result: MutableList<RepositoryModel>) {
         loadFinish()
-        if (result.newData) {
+        if (newPortion) {
             val start = items.size
             items.clear()
             notifyItemRangeRemoved(0, start)
         }
         val start = items.size
-        items.addAll(result.data)
-        checkLastPage(result.data.size)
+        items.addAll(result)
+        checkLastPage(result.size)
         notifyItemRangeInserted(start, items.size)
     }
 

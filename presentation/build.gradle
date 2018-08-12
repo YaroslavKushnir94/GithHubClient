@@ -54,4 +54,5 @@ dependencies {
     implementation depConfig.cardView
     implementation depConfig.viewRxBindingWharton
     implementation depConfig.circularimageview
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha02'
 }

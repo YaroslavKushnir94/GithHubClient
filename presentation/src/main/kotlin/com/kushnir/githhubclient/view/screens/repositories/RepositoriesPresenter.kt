@@ -1,59 +1,49 @@
 package com.kushnir.githhubclient.view.screens.repositories
 
-import android.util.Log
-import com.kushnir.githhubclient.view.screens.utils.Constants.Companion.PER_PAGE
-import com.kushnir.domain.entities.Repository
-import com.kushnir.domain.interactor.GetRepositories
-import com.kushnir.githhubclient.view.exception.ErrorHandler
-import com.kushnir.githhubclient.view.screens.utils.ResultTuple
-import com.kushnir.githhubclient.view.screens.repositories.adapter.RepositoriesModelMapper
-import io.reactivex.observers.DisposableObserver
+import com.kushnir.githhubclient.view.screens.State
+import com.kushnir.githhubclient.view.screens.VModelState
+import com.kushnir.githhubclient.view.screens.repositories.adapter.RepositoryModel
 
-class RepositoriesPresenter(private val getRepositories: GetRepositories) : RepositoriesScreen.Presenter {
+class RepositoriesPresenter : RepositoriesScreen.Presenter {
 
-    private var page = 0
 
     private lateinit var view: RepositoriesScreen.View
+    private lateinit var viewModel: RepositoriesViewModel
 
-    private var isNewRequest = true
 
     override fun onViewCreated(view: RepositoriesScreen.View) {
         this.view = view
     }
 
+    override fun addViewModel(viewModel: RepositoriesViewModel) {
+        this.viewModel = viewModel
+    }
+
     override fun searchTextChanged(key: String, page: Int) {
-        this.page = page
-        isNewRequest = true
-        load(key)
+        viewModel.initialLoad(key)
     }
 
     override fun loadMore(key: String) {
-        if (isNewRequest) page = 2
-        isNewRequest = false
-        load(key)
+        viewModel.loadNextPage(key)
     }
 
-    private fun load(key: String) {
-        view.changeData(RepositoriesStateModel(true))
-        getRepositories.execute(RepositoryObserver(), GetRepositories.Params(key, this.page, PER_PAGE))
+    override fun onSavedState(data: MutableList<RepositoryModel>) {
+        viewModel.saveData(data)
     }
 
-    inner class RepositoryObserver : DisposableObserver<MutableList<Repository>>() {
-
-        override fun onComplete() {}
-
-        override fun onNext(value: MutableList<Repository>?) {
-            view.changeData(RepositoriesStateModel(false, ResultTuple(RepositoriesModelMapper.transform(value!!), isNewRequest)))
-            page++
+    override fun onChanged(t: VModelState<MutableList<RepositoryModel>, RepositoriesStateModel>?) {
+        when (t!!.state) {
+            State.LOAD -> {
+                view.changeViewModel(t.viewModel)
+            }
+            State.DONE -> {
+                view.changeViewModel(t.viewModel)
+                view.changeData(t.data)
+            }
+            State.IDLE -> {
+            }
+            State.ERROR -> {
+            }
         }
-
-        override fun onError(e: Throwable?) {
-            view.changeData(RepositoriesStateModel(false))
-            view.showErrorMessage(ErrorHandler.getMessage(e as Exception?))
-        }
-    }
-
-    override fun onViewDestroy() {
-        getRepositories.dispose()
     }
 }

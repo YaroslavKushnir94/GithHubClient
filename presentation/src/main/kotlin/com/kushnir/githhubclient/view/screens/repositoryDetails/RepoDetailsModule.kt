@@ -1,7 +1,6 @@
 package com.kushnir.githhubclient.view.screens.repositoryDetails
 
 
-import com.kushnir.domain.interactor.GetUserFollowers
 import com.kushnir.githhubclient.view.screens.repositoryDetails.adapter.RepoDetailsAdapter
 import dagger.Module
 import dagger.Provides
@@ -10,7 +9,7 @@ import dagger.Provides
 class RepoDetailsModule {
 
     @Provides
-    fun providePresenter(getUserFollowers: GetUserFollowers): RepoDetailsScreen.Presenter = RepoDetailsPresenter(getUserFollowers)
+    fun providePresenter(): RepoDetailsScreen.Presenter = RepoDetailsPresenter()
 
     @Provides
     fun provideRepoDetailsAdapter(): RepoDetailsAdapter = RepoDetailsAdapter(mutableListOf())
