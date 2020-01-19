@@ -54,4 +54,5 @@ dependencies {
     implementation depConfig.cardView
     implementation depConfig.viewRxBindingWharton
     implementation depConfig.circularimageview
+    implementation 'android.arch.paging:runtime:1.0.1'
 }

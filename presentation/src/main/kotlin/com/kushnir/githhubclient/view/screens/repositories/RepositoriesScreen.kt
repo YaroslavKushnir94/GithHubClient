@@ -1,7 +1,10 @@
 package com.kushnir.githhubclient.view.screens.repositories
 
+import android.arch.lifecycle.LiveData
+import android.arch.paging.PagedList
 import com.kushnir.githhubclient.view.screens.repositories.adapter.AdapterClickListener
 import com.kushnir.githhubclient.view.base.BaseScreen
+import com.kushnir.githhubclient.view.screens.repositories.adapter.RepositoryModel
 
 interface RepositoriesScreen {
     interface View : BaseScreen.View, AdapterClickListener {
@@ -13,6 +16,7 @@ interface RepositoriesScreen {
         fun searchTextChanged(key: String, page: Int)
         fun loadMore(key: String)
         fun onViewDestroy()
+        fun getLiveData(): LiveData<PagedList<RepositoryModel>>
     }
 
 }

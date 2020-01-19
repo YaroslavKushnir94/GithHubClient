@@ -14,8 +14,6 @@ abstract class UseCase<T, P>(private val postExecutionThread: PostExecutionThrea
 
     fun execute(observer: DisposableObserver<T>, params: P) {
         val observable = this.buildUseCaseObservable(params)
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(postExecutionThread.getScheduler())
         compositeDisposable.add(observable.subscribeWith(observer))
     }
 

@@ -1,5 +1,6 @@
 package com.kushnir.githhubclient.view.screens.repositories
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
@@ -12,9 +13,11 @@ import kotlinx.android.synthetic.main.activity_repositories.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import android.databinding.DataBindingUtil
+import android.util.Log
 import com.kushnir.githhubclient.databinding.ActivityRepositoriesBinding
 import com.kushnir.githhubclient.view.base.BaseActivity
 import com.kushnir.githhubclient.view.base.PagingAdapter
+import com.kushnir.githhubclient.view.pagging.PaggingListAdapter
 import com.kushnir.githhubclient.view.screens.repositoryDetails.RepoDetailsActivity
 import com.kushnir.githhubclient.view.screens.repositoryDetails.parcelable.DetailsParams
 import com.kushnir.githhubclient.view.screens.repositories.adapter.*
@@ -35,12 +38,14 @@ class RepositoriesActivity : BaseActivity(), RepositoriesScreen.View {
     private lateinit var binding: ActivityRepositoriesBinding
 
     private var key = "Kotlin"
+    private lateinit var paggingAdapter: PaggingListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_repositories)
         binding.stateModel = RepositoriesStateModel()
+        paggingAdapter = PaggingListAdapter(RepositoryModel.diffUtil)
         intiView()
         addListeners()
         getQuery(savedInstanceState)
@@ -51,7 +56,7 @@ class RepositoriesActivity : BaseActivity(), RepositoriesScreen.View {
     private fun intiView() {
         setTitle(R.string.repositories_title)
         rcRepo.layoutManager = LinearLayoutManager(this)
-        rcRepo.adapter = adapter
+        rcRepo.adapter = paggingAdapter
     }
 
     private fun addListeners() {
@@ -60,6 +65,9 @@ class RepositoriesActivity : BaseActivity(), RepositoriesScreen.View {
             override fun onLoadMore() {
                 presenter.loadMore(key)
             }
+        })
+        presenter.getLiveData().observe(this, Observer {
+            paggingAdapter.submitList(it)
         })
     }
 

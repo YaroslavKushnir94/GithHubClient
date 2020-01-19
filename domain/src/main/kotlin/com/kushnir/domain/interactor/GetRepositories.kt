@@ -9,8 +9,8 @@ import javax.inject.Inject
 class GetRepositories @Inject constructor(private val commonRepository: CommonRepository, postExecutionThread: PostExecutionThread) : UseCase<MutableList<Repository>, GetRepositories.Params>(postExecutionThread) {
 
     override fun buildUseCaseObservable(params: Params): Observable<MutableList<Repository>> {
-        return commonRepository.searchRepositories(params.key,params.page,params.perPage)
+        return commonRepository.searchRepositories(params.keyWord,params.key,params.perPage)
     }
 
-    data class Params(val key: String, val page:Int, val perPage:Int)
+    data class Params(val keyWord: String, var key: Int, val perPage:Int)
 }
